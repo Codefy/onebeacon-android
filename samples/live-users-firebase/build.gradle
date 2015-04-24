@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "io.onebeacon.sample.liveusers"
+        minSdkVersion 18
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            signingConfig debug.signingConfig
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+repositories {
+//    flatDir { dirs 'libs' }
+    maven {
+        url '../../repo'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:22.1.0'
+//    compile 'io.onebeacon:one-beacon-sdk:1.0.20@aar'
+    compile 'io.onebeacon:onebeacon-android:1.0.20'
+    compile 'com.firebase:firebase-client-android:2.2.3'
+}
