@@ -1,4 +1,4 @@
-# onebeacon-samples-android
+# OneBeacon samples
 Samples for OneBeacon Android SDK
 
 ## Setup
