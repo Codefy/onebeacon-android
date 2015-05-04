@@ -33,8 +33,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
 //    compile 'io.onebeacon:one-beacon-sdk:1.0.20@aar'
-    compile 'io.onebeacon:onebeacon-android:1.0.20'
+    compile 'io.onebeacon:onebeacon-android:1.0.21'
     compile 'com.firebase:firebase-client-android:2.2.3'
 }
