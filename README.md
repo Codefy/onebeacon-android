@@ -6,7 +6,7 @@ This is a client library that scans for Bluetooth beacons and integrates with th
 ## How do I use it?
 Download the project, which includes samples and the local Android library repository to get started.
 You will need to create a developer account in our cloud console in order to use this library in your own apps. 
-Please read the [Getting started wiki page](../wiki/Getting-started)
+Please read the [Getting started wiki page](https://github.com/Codefy/onebeacon-android/wiki/Getting-started)
 
 ## How does it work?
 The OneBeacon library scans for low energy Bluetooth devices. It can find:
