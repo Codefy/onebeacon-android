@@ -15,6 +15,8 @@ import io.onebeacon.api.BeaconListener;
 import io.onebeacon.api.Monitor;
 import io.onebeacon.api.OneBeacon;
 import io.onebeacon.api.ScanListener;
+import io.onebeacon.api.ScanState;
+import io.onebeacon.api.spec.Apple_iBeacon;
 import io.onebeacon.cloud.api.AppBeacon;
 import io.onebeacon.cloud.api.AppBeaconEvents;
 import io.onebeacon.cloud.api.CloudListener;
@@ -86,6 +88,12 @@ implements ScanListener, BeaconListener, CloudListener {
 
     @Override
     public void onBeaconEvent(Beacon beacon, int flags) {
+        if (beacon.getType() == Beacon.TYPE_APPLE_IBEACON) {
+            Apple_iBeacon iBeacon = (Apple_iBeacon) beacon;
+            int maj = iBeacon.getMajor();
+            int min = iBeacon.getMinor();
+            UUID uuid = iBeacon.getPrettyUUID();
+        }
         if (flags == FLAG_REMOVED) {
             mBeacons.remove(beacon);
         }
@@ -100,9 +108,9 @@ implements ScanListener, BeaconListener, CloudListener {
 
     @Override
     public void onScanStateChanged(int scanState, int flags) {
-        if (0 == scanState) {
+        if (ScanState.STATE_STOPPED == scanState) {
             // scan if off
-            if (1 == (flags & 1)) {
+            if (0 != (flags & ScanListener.FLAG_BLUETOOTH)) {
                 // BT is off
             }
         }
