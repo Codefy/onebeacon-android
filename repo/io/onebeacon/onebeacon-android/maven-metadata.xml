@@ -2,12 +2,11 @@
 <metadata>
   <groupId>io.onebeacon</groupId>
   <artifactId>onebeacon-android</artifactId>
-  <version>1.0.20</version>
+  <version>1.0.21</version>
   <versioning>
     <versions>
-      <version>1.0.20</version>
       <version>1.0.21</version>
     </versions>
-    <lastUpdated>20150504133617</lastUpdated>
+    <lastUpdated>20150511125915</lastUpdated>
   </versioning>
 </metadata>
