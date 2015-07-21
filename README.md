@@ -10,9 +10,9 @@ Please read the [Getting started wiki page](https://github.com/Codefy/onebeacon-
 
 ## How does it work?
 The OneBeacon library scans for low energy Bluetooth devices. It can find:
+- Eddystone beacons and older format URI beacons
 - iBeacon / AltBeacon devices
-- URI beacons
-- - other BLE devices, however since they cannot be parsed only the MAC address, RSSI, and name will be available.
+- other BLE devices, however since they cannot be parsed only the MAC address, RSSI, and name will be available.
 
 ## How much battery does the scanning eat?
 The scanning power consumption is optimized natively when running on Android 5.0 or newer, and emulated on older Android versions by pausing the scan. The SDK offers the possibility to change the current scanning mode between:
