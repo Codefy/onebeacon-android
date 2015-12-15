@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import io.onebeacon.api.Beacon;
 import io.onebeacon.api.BeaconListener;
