@@ -143,7 +143,7 @@ public class MonitorService extends Service implements CloudListener {
 
     @Override
     public void onAppBeaconEvent(AppBeacon appBeacon, int flags) {
-        if (flags == Beacon.FLAG_REMOVED) {
+        if (flags == Beacon.Flags.REMOVED) {
             mLiveBeacons.remove(appBeacon);
         }
         else {
