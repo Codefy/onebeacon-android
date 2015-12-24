@@ -3,14 +3,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.onebeacon</groupId>
-  <artifactId>onebeacon-android</artifactId>
-  <version>1.0.22</version>
+  <artifactId>onebeacon-android-cloud</artifactId>
+  <version>1.0.24</version>
   <packaging>aar</packaging>
   <dependencies>
     <dependency>
+      <groupId>org.eclipse.paho</groupId>
+      <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+      <version>1.0.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client-android</artifactId>
-      <version>1.20.0</version>
+      <version>1.21.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

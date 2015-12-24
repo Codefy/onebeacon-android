@@ -7,29 +7,15 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 import io.onebeacon.api.Beacon;
-import io.onebeacon.api.BeaconListener;
-import io.onebeacon.api.Monitor;
-import io.onebeacon.api.OneBeacon;
-import io.onebeacon.api.ScanListener;
-import io.onebeacon.api.ScanState;
-import io.onebeacon.api.spec.Apple_iBeacon;
-import io.onebeacon.cloud.api.AppBeacon;
-import io.onebeacon.cloud.api.AppBeaconEvents;
-import io.onebeacon.cloud.api.CloudListener;
+import io.onebeacon.api.BeaconsMonitor;
 
 /**
  * Monitor Service
  */
-public class MonitorService extends Service
-implements ScanListener, BeaconListener, CloudListener {
-
-    /** Dummy binder that returns the actual service implementation for direct access to it
-     * - only works from inside the same process! */
+public class MonitorService extends Service {
+    /** Simple binder that returns the in-process service instance */
     class LocalServiceBinder extends Binder {
         MonitorService getService() {
             return MonitorService.this;
@@ -38,10 +24,8 @@ implements ScanListener, BeaconListener, CloudListener {
 
     private final LocalServiceBinder mBinder = new LocalServiceBinder();
 
-    /** All ranged beacons **/
-    private Set<Beacon> mBeacons = new HashSet<>();
     private boolean mServiceStarted = false;
-    private Monitor mBeaconsMonitor = null;
+    private BeaconsMonitor mBeaconsMonitor = null;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -50,101 +34,38 @@ implements ScanListener, BeaconListener, CloudListener {
     }
 
     @Override
-    public void onDestroy() {
-        log("onDestroy");
-
-        // unregister from beacons API
-        if (null != mBeaconsMonitor) {
-            OneBeacon.getCloud().removeListener(this);
-
-            mBeaconsMonitor.stop();
-            mBeaconsMonitor = null;
-        }
-
-        mBeacons.clear();
-        mServiceStarted = false;
-
-        super.onDestroy();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         log("onStartCommand");
 
         if (!mServiceStarted) {
-            startup();
+            if (null == mBeaconsMonitor) {
+                // create and start a new beacons monitor, subclassing a few callbacks
+                mBeaconsMonitor = new MyBeaconsMonitor(this);
+            }
+            mServiceStarted = true;
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void startup() {
-        enableBeaconScan();
-        mServiceStarted = true;
-    }
-
-    Collection<Beacon> getBeacons() {
-        return mBeacons;
-    }
-
     @Override
-    public void onBeaconEvent(Beacon beacon, int flags) {
-        if (beacon.getType() == Beacon.TYPE_APPLE_IBEACON) {
-            Apple_iBeacon iBeacon = (Apple_iBeacon) beacon;
-            int maj = iBeacon.getMajor();
-            int min = iBeacon.getMinor();
-            UUID uuid = iBeacon.getPrettyUUID();
+    public void onDestroy() {
+        log("onDestroy");
+
+        // unregister from beacons API
+        if (null != mBeaconsMonitor) {
+            mBeaconsMonitor.close();
+            mBeaconsMonitor = null;
         }
-        if (flags == FLAG_REMOVED) {
-            mBeacons.remove(beacon);
-        }
-        else {
-            if (mBeacons.add(beacon)) {
-                // new beacon
-            } else {
-                // updated beacon
-            }
-        }
+
+        mServiceStarted = false;
+
+        super.onDestroy();
     }
 
-    @Override
-    public void onScanStateChanged(int scanState, int flags) {
-        if (ScanState.STATE_STOPPED == scanState) {
-            // scan if off
-            if (0 != (flags & ScanListener.FLAG_BLUETOOTH)) {
-                // BT is off
-            }
-        }
-        else {
-            // scan started
-        }
-    }
-
-    private void enableBeaconScan () {
-        if (null == mBeaconsMonitor) {
-            OneBeacon.init(this);
-            OneBeacon.getCloud().addListener(this);
-
-            mBeaconsMonitor = OneBeacon.createMonitor()
-                .setBeaconListener(this)
-                .setScanListener(this)
-                .start(this);
-        }
-    }
-
-    @Override
-    public void onPrepareEvents(AppBeaconEvents appBeaconsEvent) {
-
-    }
-
-    @Override
-    public void onAppBeaconEvent(AppBeacon appBeacon, int flags) {
-        if (flags == FLAG_REMOVED) {
-
-        }
-        else {
-            // app beacons changed range
-        }
+    /** Return all the known beacons, for example to be bound to an adapter for displaying them **/
+    public Collection<Beacon> getBeacons() {
+        return mBeaconsMonitor.getBeacons();
     }
 
     private void log(String msg) {

@@ -6,12 +6,4 @@
   <artifactId>onebeacon-android</artifactId>
   <version>1.0.24</version>
   <packaging>aar</packaging>
-  <dependencies>
-    <dependency>
-      <groupId>com.google.api-client</groupId>
-      <artifactId>google-api-client-android</artifactId>
-      <version>1.20.0</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 </project>

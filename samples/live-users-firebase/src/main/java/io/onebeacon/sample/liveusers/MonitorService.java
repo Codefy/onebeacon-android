@@ -17,7 +17,7 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.onebeacon.api.BeaconListener;
+import io.onebeacon.api.Beacon;
 import io.onebeacon.api.OneBeacon;
 import io.onebeacon.api.Range;
 import io.onebeacon.cloud.api.AppBeacon;
@@ -93,8 +93,8 @@ public class MonitorService extends Service implements CloudListener {
     }
 
     private void enableBeaconScan () {
-        OneBeacon.init(this);
         OneBeacon.getCloud().addListener(this);
+        OneBeacon.enableCloudServices(this);
 
         String userId = mFirebase.getAuth().getUid();
         mFirebase.child("buzz").child(userId).addChildEventListener(new ChildEventListener() {
@@ -143,11 +143,11 @@ public class MonitorService extends Service implements CloudListener {
 
     @Override
     public void onAppBeaconEvent(AppBeacon appBeacon, int flags) {
-        if (flags == BeaconListener.FLAG_REMOVED) {
+        if (flags == Beacon.FLAG_REMOVED) {
             mLiveBeacons.remove(appBeacon);
         }
         else {
-            // app beacons changed range
+            // beacon changed range
             byte range = appBeacon.getBeacon().getRange();
             FirebaseBeaconHolder holder = mLiveBeacons.get(appBeacon);
             if (null != holder) {

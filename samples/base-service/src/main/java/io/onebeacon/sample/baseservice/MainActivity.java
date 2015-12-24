@@ -38,6 +38,8 @@ public class MainActivity extends ActionBarActivity implements ServiceConnection
     public void onServiceConnected(ComponentName name, IBinder service) {
         mService = ((MonitorService.LocalServiceBinder) service).getService();
         setTitle("Service connected");
+
+        // make the service to stick around by actually starting it
         startService(new Intent(this, MonitorService.class));
     }
 
