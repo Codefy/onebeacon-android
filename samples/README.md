@@ -13,7 +13,7 @@ Example of a simple background service that detects beacons. This sample depends
   - onDestroy: ScanStrategy.LOW_POWER;
 - **MyBeaconsMonitor** - a custom subclass of the SDK's **BeaconsMonitor** utility class. The superclass (provided by the SDK) starts the internal beacon scanning service, manages the beacon events coming from the OneBeacon service, and calls some protected methods which subclasses can override:
   - onBeaconAdded (Beacon beacon) - called when a new beacon is detected
-  - onBeaconChanged[Property] (Beacon beacon) - called when a beacon changes some property
+  - onBeaconChanged***Property*** (Beacon beacon) - called when a beacon changes some property
 
 
 ### Sample 2: live-users-firebase
