@@ -21,6 +21,7 @@ Clone this repository and check out the samples. The library is provided as a lo
 
 ## Quick API help
 Check the base-service sample and examine the **onebeacon-android** classes in your favorite IDE. There is a JavaDoc archive right next to the library, in case it's not picked up automatically you can attach it yourself.
+
 ### Interfaces to beacon sub-types
   - **Beacon** - base entity, having address, RSSI, samples count, and potential generic data
     - **EddystoneTelemetry** - telemetry data
@@ -28,6 +29,7 @@ Check the base-service sample and examine the **onebeacon-android** classes in y
       - **Apple_iBeacon** - a rangeable that contains a UUID, a major ID and a minor ID
       - ***EddystoneUID*** / ***EddystoneURL***
       - ***Nearable***
+
 ### Monitors and beacons
 A Monitor is responsible for dispatching back beacon events to your caller. You just set the desired callbacks on it, and start it, handling the callbacks, seeing if you already know about that beacon, what has happened to it, and so on.
 A wrapper around this is the ***BeaconsMonitor*** utility class, which will provide you with a set of detected beacons, and translate back beacon events to more discrete methods which you can override.
