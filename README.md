@@ -1,18 +1,18 @@
 # OneBeacon Android SDK
 
 ## What is this?
-An Android library that scans for Bluetooth Low Energy beacons, parses them into known entities, and provides interfaces to them to the application. It can recognize the following types:
-- Eddystone UID, URL, and Telemetry
-- iBeacon and AltBeacon
+An Android library that scans for Bluetooth Low Energy beacons, parses them into known entities, and provides interfaces to them to the application. It can recognize the following beacon formats:
+- Eddystone: URL, UID, EID, Telemetry, encrypted TLM
+- iBeacon, AltBeacon
 - Estimote Nearable
 - URIBeacon
-- generic BLE packets, even if the packets don't parse to a known type of the above
+- any other generic BLE devices.
 
 Unlike other SDK's out there, it has the following benefits:
 - it's not tied or locked-in to a specific beacon manufacturer or protocol
 - supports rotating MAC addresses, for beacons that are identifiable otherwise (iBeacon, Eddystone UID, Nearable...)
 - doesn't require any developer account (unless you plan to use the cloud features, ofcourse)
-- runs in constant memory, saving battery life
+- uses optimized parsing, saving battery life: no memory allocations occur while scanning the same beacons over time, and native Android 5.0 BLE API is used when available.
 
 For iBeacon devices, there's also the optional **onebeacon-android-cloud** library, which allows attaching generic data to a beacon and synchronizing it to the cloud, namespaced to your own application package. It can be used to make beacons a data input source in your apps without the need of a dedicated web-service.
 
@@ -24,10 +24,10 @@ Check the base-service sample and examine the **onebeacon-android** classes in y
 
 ### Interfaces to beacon sub-types
   - **Beacon** - base entity, having address, RSSI, samples count, and potential generic data
-    - **EddystoneTelemetry** - telemetry data
+    - **EddystoneTelemetry** / **EddystoneEncryptedTLM** - telemetry info
     - **Rangeable** - a beacon that supports ranging and distance estimation
+      - all Eddystone frame types: ***EddystoneEID*** / ***EddystoneUID*** / ***EddystoneURL***
       - **Apple_iBeacon** - a rangeable that contains a UUID, a major ID and a minor ID
-      - ***EddystoneUID*** / ***EddystoneURL***
       - ***Nearable***
 
 ### Monitors and beacons
@@ -61,3 +61,7 @@ Please read the [Getting started wiki page](https://github.com/Codefy/onebeacon-
 
 ## Compatibility
 The library is compatible with Android API 5 or newer. However it will only start the beacon scanning if the Android device supports this feature, which was introduced with Android 4.3, and if the hardware supports it.
+
+## Changelog
+1.0.26 (April 15th 2016)
+- added support for Eddystone EID and encrypted TLM frames

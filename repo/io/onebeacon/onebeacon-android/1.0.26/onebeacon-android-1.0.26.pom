@@ -4,6 +4,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.onebeacon</groupId>
   <artifactId>onebeacon-android</artifactId>
-  <version>1.0.24</version>
+  <version>1.0.26</version>
   <packaging>aar</packaging>
 </project>
